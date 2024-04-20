@@ -1,0 +1,19 @@
+{
+  "name": "cart2go",
+  "version": "1.0.0",
+  "description": "Cart2Go Backend",
+  "main": "main.js",
+  "scripts": {
+    "test": "node main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "http": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.9.3",
+    "ws": "^8.16.0"
+  }
+}
