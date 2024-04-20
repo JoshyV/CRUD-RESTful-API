@@ -31,16 +31,16 @@ function verifyToken(req, res, next) {
   }else return res.sendStatus(401);
 }
 
-app.get("/getUpdates",verifyToken, async (req, res) => {
+app.get("/getUpdate",verifyToken, async (req, res) => {
   try {
       const data = await connection.promise().query(
-          `SELECT * FROM products`
+          `SELECT * FROM users`
       );
       res.status(200).json(data[0]);
   } catch (err) {
-      console.error("Error fetching updates:", err);
+      console.error("Error fetching users:", err);
       res.status(500).json({
-          message: "Error fetching updates",
+          message: "Error fetching users",
           error: err
       });
   }
@@ -80,32 +80,32 @@ app.post("/login", verifyToken, async (req, res) => {
 });
 
 app.get("/search", verifyToken, async (req, res) => {
-  const brandName = req.query.brand;
+  const username = req.query.brand;
 
-  if (!brandName) {
-      return res.status(400).json({ message: "Brand name is required in the query parameter." });
+  if (!username) {
+      return res.status(400).json({ message: "Username is required in the query parameter." });
   }
 
   try {
       const data = await connection.promise().query(
-          `SELECT * FROM products WHERE brand = ?`,
+          `SELECT * FROM users WHERE username = ?`,
           [brandName]
       );
 
       res.status(200).json(data[0]);
   } catch (err) {
-      console.error("Error fetching products:", err);
+      console.error("Error fetching user:", err);
       res.status(500).json({
-          message: "Error fetching products",
+          message: "Error fetching user",
           error: err
       });
   }
 });
 
-app.get("/products", verifyToken,async(req, res) => {
+app.get("/users", verifyToken,async(req, res) => {
     try {
         const data = await connection.promise().query(
-          `SELECT *  from products;`
+          `SELECT *  from users;`
         );
         res.status(202).json({
           users: data[0],
@@ -117,27 +117,27 @@ app.get("/products", verifyToken,async(req, res) => {
       }
 });
 
-app.put('/product/:id',verifyToken, async (req, res) => {
+app.put('/users/:id',verifyToken, async (req, res) => {
   const id = req.params.id;
-  const { barcode, brand, variant, volume, description } = req.body;
-  if (!barcode || !brand || !variant ||!volume || !description) {
+  const { username, password } = req.body;
+  if (!username||!password) {
     return res.status(400).json({
       message: "Missing required fields.",
     });
   }
   try {
     const result = await connection.promise().query(
-      `UPDATE products SET barcode=?, brand=?, variant=?, volume=?, description=? WHERE id=?`,
-      [barcode, brand, variant,volume,description]
+      `UPDATE users SET username=? WHERE id=? AND username=?`,
+      [id, username]
     );
 
     if (result[0].affectedRows > 0) {
       return res.status(201).json({
-        message: "Product updated successfully",
+        message: "User updated successfully",
       });
     } else {
       return res.status(500).json({
-        message: "Error updating the product",
+        message: "Error updating the user",
       });
     }
   } catch (err) {
@@ -147,10 +147,10 @@ app.put('/product/:id',verifyToken, async (req, res) => {
   }
 });
 
-app.post("/product",verifyToken, async (req, res) => {
-  const { barcode, brand, variant,volume,description } = req.body;
+app.post("/adduser",verifyToken, async (req, res) => {
+  const { username, password} = req.body;
 
-  if (!barcode || !brand || !variant ||!volume || !description) {
+  if (!username || !password) {
     return res.status(400).json({
       message: "Missing required fields.",
     });
@@ -158,17 +158,17 @@ app.post("/product",verifyToken, async (req, res) => {
 
   try {
     const result = await connection.promise().query(
-      `INSERT INTO products (barcode, brand, variant,volume,description) VALUES (?, ?, ?, ?, ?);`,
-      [barcode, brand, variant,volume,description]
+      `INSERT INTO users (username, password) VALUES (?, ?);`,
+      [username, password]
     );
 
     if (result[0].affectedRows > 0) {
       return res.status(201).json({
-        message: "Product added",
+        message: "User added",
       });
     } else {
       return res.status(500).json({
-        message: "Error adding product",
+        message: "Error adding user",
       });
     }
   } catch (err) {
@@ -179,5 +179,5 @@ app.post("/product",verifyToken, async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Cart2Go Listening to https://c2g.dev:${port}`);
+  console.log(`Listening to https://localhost:${port}`);
 });
