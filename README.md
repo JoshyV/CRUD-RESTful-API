@@ -7,7 +7,7 @@ This is a RESTful API with CRUD (Create, Read, Update, Delete) functionality for
 - System Authentication (JWT)
 - CRUD operations for users
 - User login functionality
-- Search products by brand name
+- Search users by username/ID
 
 ## Technologies Used
 
