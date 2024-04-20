@@ -1,4 +1,4 @@
-# E-commerce CRUD API
+# Simple CRUD API
 
 This is a RESTful API with CRUD (Create, Read, Update, Delete) functionality for managing products and user authentication.
 
