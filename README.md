@@ -11,10 +11,10 @@ This is a RESTful API with CRUD (Create, Read, Update, Delete) functionality for
 
 ## Technologies Used
 
-- Node.js
-- Express.js
-- MySQL
-- JSON Web Tokens (JWT)
+- Node.js (https://nodejs.org/)
+- Express.js (https://expressjs.com/)
+- MySQL (https://www.mysql.com/)
+- JSON Web Tokens (JWT) (https://jwt.io/)
 
 ## Getting Started
 
